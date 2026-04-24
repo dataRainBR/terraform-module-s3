@@ -1,0 +1,45 @@
+repos:
+  # Terraform hooks
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.83.5
+    hooks:
+      - id: terraform_fmt
+        files: ^module/.*\.tf$
+      - id: terraform_checkov
+        files: ^module/.*\.tf$
+
+
+  # Hook customizado local
+  - repo: local
+    hooks:
+      - id: terraform_docs_custom
+        name: Generate Terraform docs
+        description: Generate documentation for Terraform modules
+        entry: hooks/terraform_docs.sh
+        language: script
+        files: ^module/.*\.tf$
+        require_serial: true
+
+      - id: trivy_scan
+        name: Trivy Security Scan
+        description: Run Trivy security scan on Terraform modules
+        entry: hooks/trivy_scan.sh
+        language: script
+        files: ^module/.*\.tf$
+        require_serial: true
+
+      - id: infracost_breakdown
+        name: Infracost Cost Analysis
+        description: Run Infracost breakdown for cost estimation
+        entry: hooks/infracost_breakdown.sh
+        language: script
+        files: ^module/.*\.tf$
+        require_serial: true
+
+  # General hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict

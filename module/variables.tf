@@ -32,6 +32,12 @@ variable "kms_key_arn" {
   default     = null
 }
 
+variable "bucket_key_enabled" {
+  description = "Override explícito de bucket_key_enabled. Default null = auto (true para KMS, false para AES256). Útil quando AES256 + bucket key é desejado para reduzir custos."
+  type        = bool
+  default     = null
+}
+
 variable "block_public_acls" {
   description = "Bloqueia ACLs públicas."
   type        = bool

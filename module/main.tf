@@ -27,7 +27,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
       sse_algorithm     = var.encryption_type
       kms_master_key_id = var.encryption_type == "aws:kms" ? var.kms_key_arn : null
     }
-    bucket_key_enabled = var.encryption_type == "aws:kms"
+    bucket_key_enabled = var.bucket_key_enabled != null ? var.bucket_key_enabled : (var.encryption_type == "aws:kms")
   }
 }
 

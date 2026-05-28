@@ -42,3 +42,4 @@ terraform.rc
 
 venv
 venv/*
+module/.terraform.lock.hcl

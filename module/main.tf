@@ -168,3 +168,28 @@ resource "aws_s3_bucket_replication_configuration" "this" {
 
   depends_on = [aws_s3_bucket_versioning.this]
 }
+
+# ---------------------------------------------------------------------------
+# SSM Parameters — discoverability do bucket (opt-in via var.ssm_path_prefix).
+# Mantém SSMs em paridade com o ciclo de vida do bucket (DR-portable).
+# ---------------------------------------------------------------------------
+
+resource "aws_ssm_parameter" "bucket_name" {
+  count = var.ssm_path_prefix == null ? 0 : 1
+
+  name        = "${var.ssm_path_prefix}/bucket_name"
+  type        = "String"
+  value       = aws_s3_bucket.this.id
+  description = "S3 bucket id (name) for ${var.bucket_name}"
+  tags        = var.tags
+}
+
+resource "aws_ssm_parameter" "bucket_arn" {
+  count = var.ssm_path_prefix == null ? 0 : 1
+
+  name        = "${var.ssm_path_prefix}/arn"
+  type        = "String"
+  value       = aws_s3_bucket.this.arn
+  description = "S3 bucket ARN for ${var.bucket_name}"
+  tags        = var.tags
+}

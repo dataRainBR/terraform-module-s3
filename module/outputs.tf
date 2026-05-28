@@ -22,3 +22,13 @@ output "hosted_zone_id" {
   description = "Route53 hosted zone ID do bucket (para alias records)."
   value       = aws_s3_bucket.this.hosted_zone_id
 }
+
+output "ssm_path_bucket_name" {
+  description = "SSM Parameter path para bucket name (quando ssm_path_prefix definido)."
+  value       = var.ssm_path_prefix == null ? null : aws_ssm_parameter.bucket_name[0].name
+}
+
+output "ssm_path_bucket_arn" {
+  description = "SSM Parameter path para bucket ARN (quando ssm_path_prefix definido)."
+  value       = var.ssm_path_prefix == null ? null : aws_ssm_parameter.bucket_arn[0].name
+}

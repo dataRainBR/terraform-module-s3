@@ -130,3 +130,15 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "ssm_path_prefix" {
+  description = <<-EOT
+    Quando setado, módulo cria SSM Parameters de discoverability:
+      <prefix>/bucket_name → bucket id (= nome)
+      <prefix>/arn         → bucket ARN
+    Pattern recomendado: /<org>/<service>/s3-<key>
+    Mantém SSMs em paridade com o ciclo de vida do bucket (DR-portable).
+  EOT
+  type        = string
+  default     = null
+}

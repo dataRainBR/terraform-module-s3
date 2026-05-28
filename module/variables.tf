@@ -15,8 +15,19 @@ variable "versioning_enabled" {
   default     = false
 }
 
+variable "manage_encryption" {
+  description = <<-EOT
+    Quando true (default), módulo cria aws_s3_bucket_server_side_encryption_configuration.
+    Setar false em contextos onde SCP nega s3:PutEncryptionConfiguration
+    (ex: AWS Organizations com SCP restritiva). S3 ainda terá encryption default
+    da AWS (AES256 desde 2023), só não gerenciado por TF.
+  EOT
+  type        = bool
+  default     = true
+}
+
 variable "encryption_type" {
-  description = "Tipo de criptografia server-side: AES256 ou aws:kms."
+  description = "Tipo de criptografia server-side: AES256 ou aws:kms. Ignorado se manage_encryption=false."
   type        = string
   default     = "AES256"
 
